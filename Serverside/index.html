@@ -1,0 +1,120 @@
+<html>
+
+<head>
+    <style>
+        .canvas {
+            border-style: solid;
+            border-width: 5px;
+            border-color: black;
+        }
+
+
+
+    </style>
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    
+    <canvas class="canvas"></canvas>
+    <div class="container">
+
+
+
+        <div class="row">
+            <!--<canvas class="canvas col-8"></canvas>-->
+            <div class="col-2" id="chat">
+                <ul id="messages">
+                    <li>test message</li>
+                    <li>Hejsa</li>
+                </ul>
+
+                <form action="" class="">
+                    <span><input type="text col-2" /> </span> <span><button type="button" class="btn btn-primary">Send</button>
+                    </span>
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    #<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <script>
+        var socket = io();
+        var canvas = document.getElementsByClassName('canvas');
+        var context = canvas[0].getContext('2d');
+        var drawing = false;
+
+        canvas.width = 700;
+        canvas.height = 500;
+
+        canvas[0].addEventListener('mousedown', onMouseDown, false);
+        canvas[0].addEventListener('mouseup', onMouseUp, false);
+        canvas[0].addEventListener('mousemove', onMouseMove, false);
+
+        socket.on('drawing', onDrawingEvent);
+
+        var current = {x: 0, y: 0}
+
+        function drawLine(x0, y0, x1, y1, emit) {
+            context.beginPath();
+            context.moveTo(x0, y0);
+            context.lineTo(x1, y1);
+            context.lineWidth = 3;
+            context.stroke();
+            context.closePath();
+
+            if (!emit) { return; }
+
+            socket.emit('drawing', {
+                x0: x0 / canvas.width, y0: y0 / canvas.height, x1: x1 / canvas.width, y1: y1 / canvas.height
+            })
+
+        }
+
+        function onDrawingEvent(data) {
+            drawLine(data.x0 * canvas.width, data.y0 * canvas.height, data.x1 * canvas.width, data.y1 * canvas.height);
+        }
+
+        function onMouseDown(e) {
+            console.log(e.clientX)
+            console.log(e.clientY)
+            drawing = true;
+            current.x = e.clientX;
+            current.y = e.clientY;
+        }
+
+        function onMouseUp(e) {
+            if (!drawing) { return; }
+            drawing = false;
+            drawLine(current.x, current.y, e.clientX, e.clientY, true);
+        }
+
+        function onMouseMove(e) {
+            if (!drawing) { return; }
+            drawLine(current.x, current.y, e.clientX, e.clientY, true);
+            current.x = e.clientX;
+            current.y = e.clientY;
+        }
+
+    </script>
+
+
+</body>
+
+</html>
