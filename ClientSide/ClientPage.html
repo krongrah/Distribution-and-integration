@@ -1,13 +1,49 @@
-!Doc
 <html>
-    <head>
-        
-        
-        
-    </head>
-    <body>
+
+<head>
+    <style>
+        form input {
+            width: 500px;
+        }
+
+        form button {
+            width: 9%;
+            padding: 10px;
+        }
+    </style>
 
 
 
-    </body>
+</head>
+
+<body>
+    <div class="content">
+        <h1>Welcome to the chat my friend</h1>
+        <ul id="messages"></ul>
+        <form action="">
+            <input id="input" /> <button>Send</button>
+        </form>
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+    </script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <script>
+        $(function () {
+            var socket = io();
+            $('form').submit(function (e) {
+                socket.emit('send message', $('#input').val());
+                $('#input').val('');
+                return false;
+            });
+        });
+    </script>
+
+
+</body>
+
 </html>
