@@ -10,6 +10,11 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
+// Total hack. Can't call the file without exposing it.
+app.get('/draw.js', function(req, res){
+  res.sendFile(__dirname + '/draw.js');
+});
+
 function onConnection(socket){
   socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
 }
