@@ -25,10 +25,9 @@
                     <li>test message</li>
                     <li>Hejsa</li>
                 </ul>
-
+                
                 <form action="" class="">
-                    <span><input type="text col-2" /> </span> <span><button type="button" class="btn btn-primary">Send</button>
-                    </span>
+                    <button type="button" class="clearButton">Clear</button>
                 </form>
 
             </div>
@@ -43,6 +42,7 @@
     <script>
         var socket = io();
         var canvas = document.getElementsByClassName('canvas');
+        var button = document.getElementsByClassName('clearButton')
         var context = canvas[0].getContext('2d');
         var drawing = false;
 
@@ -52,6 +52,7 @@
         canvas[0].addEventListener('mousedown', onMouseDown, false);
         canvas[0].addEventListener('mouseup', onMouseUp, false);
         canvas[0].addEventListener('mousemove', onMouseMove, false);
+        button.addEventListener('press', clearCanvas)
 
         socket.on('drawing', onDrawingEvent);
 
@@ -94,6 +95,10 @@
             drawLine(current.x, current.y, e.clientX, e.clientY, true);
             current.x = e.clientX;
             current.y = e.clientY;
+        }
+
+        function reset(e) {
+            socket.emit('clear')
         }
 
     </script>
