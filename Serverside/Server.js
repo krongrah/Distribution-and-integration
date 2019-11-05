@@ -14,12 +14,11 @@ function onConnection(socket){
   socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
 }
 
+
+
 io.on('connection', onConnection);
 
 http.listen(port, () => console.log('listening on port ' + port));
-
-
-
 
 
 
