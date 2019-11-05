@@ -11,12 +11,12 @@ canvas.height = 500;
 canvas[0].addEventListener("mousedown", onMouseDown, false);
 canvas[0].addEventListener("mouseup", onMouseUp, false);
 canvas[0].addEventListener("mousemove", onMouseMove, false);
-clearButton[0].addEventListener("click", onButtonClick, false);
+clearButton[0].addEventListener("click", onButtonClick);
 // clearButton[0].addEventListener("click", clearCanvas, false);
 // clearButton[0].addEventListener("click", clear);
 
 socket.on("drawing", onDrawingEvent);
-socket.on("clear", onButtonClick)
+socket.on("clear", onClearEvent)
 
 var current = { x: 0, y: 0 };
 
@@ -55,31 +55,30 @@ socket.emit("drawing", {
 }
 
 function clearCanvas(emit) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
     if (!emit) {
         return;
     }
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
     socket.emit("clear");
 }
 
 function onDrawingEvent(data) {
-drawLine(
-    data.x0 * canvas.width,
-    data.y0 * canvas.height,
-    data.x1 * canvas.width,
-    data.y1 * canvas.height
-);
+    drawLine(
+        data.x0 * canvas.width,
+        data.y0 * canvas.height,
+        data.x1 * canvas.width,
+        data.y1 * canvas.height
+    );
+}
+
+function onClearEvent(e) {
+    clearCanvas();
 }
 
 function onButtonClick(e) {
-    clear = true;
-    if (!clear) {
-        return;
-    }
 
     clearCanvas(true);
-    clear = false;
 }
 
 function onMouseDown(e) {
