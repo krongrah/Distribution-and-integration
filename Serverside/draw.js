@@ -3,6 +3,7 @@ var canvas = document.getElementsByClassName("canvas");
 var clearButton = document.getElementsByClassName("clearButton");
 var context = canvas[0].getContext("2d");
 var drawing = false;
+var clear = false;
 
 canvas.width = 700;
 canvas.height = 500;
@@ -10,24 +11,27 @@ canvas.height = 500;
 canvas[0].addEventListener("mousedown", onMouseDown, false);
 canvas[0].addEventListener("mouseup", onMouseUp, false);
 canvas[0].addEventListener("mousemove", onMouseMove, false);
-clearButton.addEventListener("click", clearCanvas, false);
+clearButton[0].addEventListener("click", onButtonClick, false);
+// clearButton[0].addEventListener("click", clearCanvas, false);
+// clearButton[0].addEventListener("click", clear);
 
 socket.on("drawing", onDrawingEvent);
+socket.on("clear", onButtonClick)
 
 var current = { x: 0, y: 0 };
 
-function clearCanvas() {
+// function clearCanvas(e) {
+    // clear(true);
+    // context.clearRect(0, 0, canvas.width, canvas.height);
+// }
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    clear(true);
-}
-
-function clear() {
-    if (!emit) {
-        return;
-    }
-    socket.emit("clearCanvas");
-}
+// function clear(emit) {
+    // if (!emit) {
+    //     return;
+    // }
+    // context.clearRect(0, 0, canvas.width, canvas.height);
+    // socket.emit("clearCanvas");
+// }
 
 
 function drawLine(x0, y0, x1, y1, emit) {
@@ -50,6 +54,15 @@ socket.emit("drawing", {
 });
 }
 
+function clearCanvas(emit) {
+    if (!emit) {
+        return;
+    }
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    socket.emit("clear");
+}
+
 function onDrawingEvent(data) {
 drawLine(
     data.x0 * canvas.width,
@@ -57,6 +70,16 @@ drawLine(
     data.x1 * canvas.width,
     data.y1 * canvas.height
 );
+}
+
+function onButtonClick(e) {
+    clear = true;
+    if (!clear) {
+        return;
+    }
+
+    clearCanvas(true);
+    clear = false;
 }
 
 function onMouseDown(e) {
