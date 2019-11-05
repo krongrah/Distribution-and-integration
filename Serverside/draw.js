@@ -1,5 +1,6 @@
 var socket = io();
 var canvas = document.getElementsByClassName("canvas");
+var clearButton = document.getElementsByClassName("clearButton");
 var context = canvas[0].getContext("2d");
 var drawing = false;
 
@@ -9,10 +10,25 @@ canvas.height = 500;
 canvas[0].addEventListener("mousedown", onMouseDown, false);
 canvas[0].addEventListener("mouseup", onMouseUp, false);
 canvas[0].addEventListener("mousemove", onMouseMove, false);
+clearButton.addEventListener("click", clearCanvas, false);
 
 socket.on("drawing", onDrawingEvent);
 
 var current = { x: 0, y: 0 };
+
+function clearCanvas() {
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    clear(true);
+}
+
+function clear() {
+    if (!emit) {
+        return;
+    }
+    socket.emit("clearCanvas");
+}
+
 
 function drawLine(x0, y0, x1, y1, emit) {
 context.beginPath();
