@@ -17,8 +17,12 @@ app.get('/draw.js', function(req, res){
 
 function onConnection(socket){
   socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
+  // socket.on('clear', socket.broadcast.emit('clear'));
   socket.on('clear', function(){
-  	socket.broadcast.emit('drawing');
+    console.log('Start');
+    socket.broadcast.emit('clear');
+    socket.emit('clear');
+    console.log('Slut');
   });
 }
 
