@@ -21,9 +21,11 @@ function onConnection(socket){
   socket.on('clear', function(){
     console.log('Start');
     socket.broadcast.emit('clear');
+    socket.emit('this','clear');
     socket.emit('clear');
     console.log('Slut');
   });
+  socket.on('clear', () => socket.broadcast.emit('clear'));
 }
 
 
