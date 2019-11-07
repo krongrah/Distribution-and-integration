@@ -1,9 +1,15 @@
 var socket = io();
 var canvas = document.getElementsByClassName("canvas");
+var rect = document.getElementById('canvas').getBoundingClientRect();
 var clearButton = document.getElementsByClassName("clearButton");
+var buttonRed = document.getElementsByClassName("buttonRed");
+var buttonGreen = document.getElementsByClassName("buttonGreen");
+var buttonBlack = document.getElementsByClassName("buttonBlack");
+var buttonOrange = document.getElementsByClassName("buttonOrange");
 var context = canvas[0].getContext("2d");
 var drawing = false;
 var clear = false;
+var color = "black";
 
 canvas.width = 700;
 canvas.height = 500;
@@ -12,6 +18,10 @@ canvas[0].addEventListener("mousedown", onMouseDown, false);
 canvas[0].addEventListener("mouseup", onMouseUp, false);
 canvas[0].addEventListener("mousemove", onMouseMove, false);
 clearButton[0].addEventListener("click", onButtonClick);
+buttonRed[0].addEventListener("click", colorRed);
+buttonBlack[0].addEventListener("click", colorBlack);
+buttonOrange[0].addEventListener("click", colorOrange);
+buttonGreen[0].addEventListener("click", colorGreen);
 // clearButton[0].addEventListener("click", clearCanvas, false);
 // clearButton[0].addEventListener("click", clear);
 
@@ -20,25 +30,39 @@ socket.on("clear", onClearEvent)
 
 var current = { x: 0, y: 0 };
 
-// function clearCanvas(e) {
-    // clear(true);
-    // context.clearRect(0, 0, canvas.width, canvas.height);
-// }
+function getXandY(event) {
 
-// function clear(emit) {
-    // if (!emit) {
-    //     return;
-    // }
-    // context.clearRect(0, 0, canvas.width, canvas.height);
-    // socket.emit("clearCanvas");
-// }
+    
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+
+}
+
+function colorRed() {
+    color = "red";
+}
+
+function colorBlack() {
+    color = "black";
+}
+
+function colorOrange() {
+    color = "Orange";
+}
+
+function colorGreen() {
+    color = "green";
+}
 
 
-function drawLine(x0, y0, x1, y1, emit) {
+function drawLine(x0, y0, x1, y1, color, emit) {
 context.beginPath();
 context.moveTo(x0, y0);
 context.lineTo(x1, y1);
 context.lineWidth = 3;
+context.strokeStyle = color;
 context.stroke();
 context.closePath();
 
@@ -50,7 +74,8 @@ socket.emit("drawing", {
     x0: x0 / canvas.width,
     y0: y0 / canvas.height,
     x1: x1 / canvas.width,
-    y1: y1 / canvas.height
+    y1: y1 / canvas.height,
+    color: color
 });
 }
 
@@ -68,7 +93,8 @@ function onDrawingEvent(data) {
         data.x0 * canvas.width,
         data.y0 * canvas.height,
         data.x1 * canvas.width,
-        data.y1 * canvas.height
+        data.y1 * canvas.height,
+        data.color
     );
 }
 
@@ -92,14 +118,27 @@ if (!drawing) {
     return;
 }
 drawing = false;
-drawLine(current.x, current.y, e.clientX, e.clientY, true);
+data = getXandY(canvas, e)
+
+drawLine(current.x, current.y, data.x, data.y, color, true);
+current.x = data.x;
+current.y = data.y;
 }
 
 function onMouseMove(e) {
 if (!drawing) {
     return;
 }
-drawLine(current.x, current.y, e.clientX, e.clientY, true);
-current.x = e.clientX;
-current.y = e.clientY;
+data = getXandY(e)
+
+drawLine(current.x, current.y, data.x, data.y, color, true);
+current.x = data.x;
+current.y = data.y;
 }
+
+
+
+
+
+
+

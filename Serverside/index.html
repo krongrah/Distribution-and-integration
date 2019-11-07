@@ -7,6 +7,74 @@
             border-width: 5px;
             border-color: black;
         }
+
+        .btn {
+            border: 2px solid gray;
+            background-color: white;
+            color: black;
+            padding: 14px 28px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 125px;
+            margin:8px;
+            }
+        .clearButton {
+            border: 2px solid gray;
+        }
+
+        .clearButton:hover {
+            color: white;
+            background: gray;
+        }
+
+        .buttonRed {
+            color: red;
+            border: 2px solid red;
+        }
+
+        .buttonRed:hover {
+            color: white;
+            background: red;
+        }
+
+        .buttonBlack {
+            color: black;
+            border: 2px solid black;
+        }
+
+        .buttonBlack:hover {
+            color: white;
+            background: black;
+        }
+
+        .buttonOrange {
+            color: orange;
+            border: 2px solid orange;
+        }
+
+        .buttonOrange:hover {
+            color: white;
+            background: orange;
+        }
+
+        .buttonGreen {
+            color: green;
+            border: 2px solid green;
+        }
+
+        .buttonGreen:hover {
+            color: white;
+            background: green;
+        }
+
+        #buttons {
+            display:inline;
+        }
+
+        .inline {
+            display:inline;
+        }
+
     </style>
 
 
@@ -14,17 +82,27 @@
 
 <body>
 
-    
-    <canvas class="canvas" width="700" height="500"></canvas>
+    <div align="center">
+        <h1>Welcome to fake <a href="https://skribbl.io/">Skribbl.io</a></h1>
+    <canvas id="canvas" class="canvas" width="700" height="500"></canvas>
+    </div>
+
     <div class="">
 
-        <div class="">
+        <div align="center">
             <!--<canvas class="canvas col-8"></canvas>-->
-            <div class="">
-                <form action="" class="">
-                    <button type="button" class="clearButton">Clear</button>
-                </form>
-
+            <div style="display: inline;">
+                
+                    <div class="inline"><button type="button" class="btn clearButton">Clear</button></div>
+                
+                    <div class="inline"><button type="button" class="btn buttonRed">Red</button></div>
+                
+                    <div class="inline"><button type="button" class="btn buttonBlack">Black</button></div>
+                
+                    <div class="inline"><button type="button" class="btn buttonOrange">Orange</button></div>
+                
+                    <div class="inline"><button type="button" class="btn buttonGreen">Green</button></div>
+                
             </div>
 
         </div>
