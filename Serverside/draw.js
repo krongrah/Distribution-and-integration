@@ -109,8 +109,10 @@ function onButtonClick(e) {
 
 function onMouseDown(e) {
 drawing = true;
-current.x = e.clientX;
-current.y = e.clientY;
+
+data = getXandY(canvas, e)
+current.x = e.clientX - data.x;
+current.y = e.clientY - data.y;
 }
 
 function onMouseUp(e) {
@@ -118,8 +120,8 @@ if (!drawing) {
     return;
 }
 drawing = false;
-data = getXandY(canvas, e)
 
+data = getXandY(canvas, e)
 drawLine(current.x, current.y, data.x, data.y, color, true);
 current.x = data.x;
 current.y = data.y;
