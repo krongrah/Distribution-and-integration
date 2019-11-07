@@ -31,8 +31,6 @@ socket.on("clear", onClearEvent)
 var current = { x: 0, y: 0 };
 
 function getXandY(event) {
-
-    
     return {
       x: event.clientX - rect.left,
       y: event.clientY - rect.top
@@ -110,9 +108,9 @@ function onButtonClick(e) {
 function onMouseDown(e) {
 drawing = true;
 
-data = getXandY(canvas, e)
-current.x = e.clientX - data.x;
-current.y = e.clientY - data.y;
+data = getXandY(e)
+current.x = data.x;
+current.y = data.y;
 }
 
 function onMouseUp(e) {
@@ -121,7 +119,7 @@ if (!drawing) {
 }
 drawing = false;
 
-data = getXandY(canvas, e)
+data = getXandY(e)
 drawLine(current.x, current.y, data.x, data.y, color, true);
 current.x = data.x;
 current.y = data.y;
