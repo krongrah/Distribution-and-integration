@@ -5,7 +5,7 @@ var clearButton = document.getElementsByClassName("clearButton");
 var buttonRed = document.getElementsByClassName("buttonRed");
 var buttonGreen = document.getElementsByClassName("buttonGreen");
 var buttonBlack = document.getElementsByClassName("buttonBlack");
-var buttonOrange = document.getElementsByClassName("buttonOrange");
+var buttonBlue = document.getElementsByClassName("buttonBlue");
 var context = canvas[0].getContext("2d");
 var drawing = false;
 var clear = false;
@@ -20,7 +20,7 @@ canvas[0].addEventListener("mousemove", onMouseMove, false);
 clearButton[0].addEventListener("click", onButtonClick);
 buttonRed[0].addEventListener("click", colorRed);
 buttonBlack[0].addEventListener("click", colorBlack);
-buttonOrange[0].addEventListener("click", colorOrange);
+buttonBlue[0].addEventListener("click", colorBlue);
 buttonGreen[0].addEventListener("click", colorGreen);
 // clearButton[0].addEventListener("click", clearCanvas, false);
 // clearButton[0].addEventListener("click", clear);
@@ -46,8 +46,8 @@ function colorBlack() {
     color = "black";
 }
 
-function colorOrange() {
-    color = "Orange";
+function colorBlue() {
+    color = "#57a9d9";
 }
 
 function colorGreen() {
