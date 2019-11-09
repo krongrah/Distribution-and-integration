@@ -15,6 +15,10 @@ app.get('/draw.js', function(req, res){
   res.sendFile(__dirname + '/draw.js');
 });
 
+app.get('/style.css', function(req, res){
+  res.sendFile(__dirname + '/style.css');
+});
+
 function onConnection(socket){
   socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
   socket.on('clear', () => socket.broadcast.emit('clear'));
