@@ -22,6 +22,7 @@ buttonRed[0].addEventListener("click", colorRed);
 buttonBlack[0].addEventListener("click", colorBlack);
 buttonBlue[0].addEventListener("click", colorBlue);
 buttonGreen[0].addEventListener("click", colorGreen);
+window.addEventListener("resize", handleResize);
 // clearButton[0].addEventListener("click", clearCanvas, false);
 // clearButton[0].addEventListener("click", clear);
 
@@ -136,9 +137,7 @@ current.x = data.x;
 current.y = data.y;
 }
 
-
-
-
-
-
-
+function handleResize() {
+    canvas.width = rect.width - 10;
+    canvas.height = rect.height - 10;
+}
