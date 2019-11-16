@@ -3,9 +3,9 @@ const app = express();
 const fs = require('fs');
 
 // Certificate
-const privateKey = fs.readFileSync(/etc/letsencrypt/live/ahmadhamid/privkey.pem);
-const certificate = fs.readFileSync(/etc/letsencrypt/live/ahmadhamid/cert.pem);
-const ca = fs.readFileSync(/etc/letsencrypt/live/ahmadhamid/chain.pem);
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/ahmadhamid.dk/privkey.pem');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/ahmadhamid.dk/cert.pem');
+const ca = fs.readFileSync('/etc/letsencrypt/live/ahmadhamid.dk/chain.pem');
 const credentials = {
   key: privateKey,
   cert: certificate,
@@ -17,7 +17,7 @@ const http = require('http').createServer(app);
 const httpPort = 80;
 
 const https = require('https').createServer(credentials, app);
-const httpsPort = 443:
+const httpsPort = 443;
 
 const io = require('socket.io').listen(http);
 
